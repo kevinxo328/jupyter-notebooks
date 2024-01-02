@@ -4,4 +4,5 @@
 .env
 .idea
 .vscode
-data
+data/*/*
+temp
