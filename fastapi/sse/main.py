@@ -1,6 +1,6 @@
 import time
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -36,5 +36,10 @@ async def sse():
 
 # create a index html page
 @app.get("/", response_class=HTMLResponse)
-async def index():
-    return templates.TemplateResponse(name="index.html", request={})
+async def index(request: Request):
+    return templates.TemplateResponse(name="index.html", request=request)
+
+
+@app.get("/fetch", response_class=HTMLResponse)
+async def fetch(request: Request):
+    return templates.TemplateResponse(name="fetch.html", request=request)

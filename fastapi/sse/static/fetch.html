@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Server Sent Events ver. Fetch-Event-Source</title>
+
+</head>
+
+<body>
+    <h1>Server Sent Events ver. Fetch-Event-Source</h1>
+    <div id="events"></div>
+
+    <script type="module">
+        import { fetchEventSource } from 'https://cdn.jsdelivr.net/npm/@microsoft/fetch-event-source@2.0.1/+esm'
+        const ctrl = new AbortController();
+        fetchEventSource('/sse', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            signal: ctrl.signal,
+            onmessage: (event) => {
+                console.log(event);
+                document.getElementById('events').innerHTML += event.data + '<br>';
+
+                if (event.event === 'end') {
+                    ctrl.abort();
+                }
+            }
+        },
+        );
+
+    </script>
+</body>
+
+</html>

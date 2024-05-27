@@ -2,46 +2,28 @@
 <html>
 
 <head>
-    <title>Server Sent Events</title>
-    <script src="https://cdn.jsdelivr.net/npm/fetch-event-source@1.0.0-alpha.2/index.min.js"></script>
+    <title>Server Sent Events ver. EventSource</title>
 </head>
 
 <body>
-    <h1>Server Sent Events</h1>
+    <h1>Server Sent Events ver. EventSource</h1>
     <div id="events"></div>
     <script>
-        // const events = new EventSource('/sse');
-        // // events.ontest = function (event) {
-        // //     document.getElementById('events').innerHTML += event.data + '<br>';
-        // // };
-        // events.addEventListener('message', function (event) {
-        //     document.getElementById('events').innerHTML += event.data + '<br>';
-        // });
+        const events = new EventSource('/sse');
+        events.addEventListener('message', function (event) {
+            document.getElementById('events').innerHTML += event.data + '<br>';
+        });
 
-        // events.onerror = function (event) {
-        //     console.log('Error', event);
-        // };
+        events.onerror = function (event) {
+            console.log('Error', event);
+            document.getElementById('events').innerHTML += event.data + '<br>';
 
-        // events.addEventListener('end', function (event) {
-        //     events.close();
-        // });
+        };
 
-        // fetch('/sse').then(response => {
-        //     const reader = response.body
-        //         .pipeThrough(new TextDecoderStream())
-        //         .getReader();
-        //     const stream = new ReadableStream({
-        //         start() {
-        //             reader.read().then(() => null);
-        //         },
-        //         pull() {
-        //             reader.read().then(({
-        //                 value
-        //             }) => console.log(value))
-        //         },
-        //     })
-        // });
-
+        events.addEventListener('end', function (event) {
+            events.close();
+            document.getElementById('events').innerHTML += event.data + '<br>';
+        });
     </script>
 </body>
 
